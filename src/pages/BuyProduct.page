@@ -1,0 +1,82 @@
+<apex:page showHeader="false" controller="BuyProductController" lightningStylesheets="true">
+    <apex:slds />
+    <apex:form >
+        <div style="padding:1%; width: 100%; background: rgb(243, 242, 242); box-shadow: 0 0 10px rgba(0,0,0,0.30);" class="slds-text-align_center slds-text-heading_medium slds-grid">
+            <div class="slds-col">
+                Contact Information
+            </div>
+            <div class="slds-col">
+                Product Information
+            </div>
+        </div>
+        <div class="slds-grid " style="margin-top:2%; margin-left:15%;" >
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">Email</label>
+                    <div class="slds-form-element__control">
+                        <apex:inputField id="text-input-id-1" value="{!contact.Email}" styleClass="slds-input" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-2">First Name</label>
+                    <div class="slds-form-element__control">
+                        <apex:inputField id="text-input-id-2" value="{!contact.FirstName}" styleClass="slds-input" style="width:200px;" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-3">
+                        <abbr class="slds-required" title="required">* </abbr>Last Name</label>
+                    <div class="slds-form-element__control">
+                        <apex:inputField id="text-input-id-3" value="{!contact.LastName}" required="true" styleClass="slds-input" style="width:200px;" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label">Product Name</span>
+                    <div class="slds-form-element__control">
+                        <span class="slds-form-element__static"><apex:outputField value="{!product.Name}"/></span>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label">Cost</span>
+                    <div class="slds-form-element__control">  
+                        <span class="slds-form-element__static"><apex:outputField value="{!product.Unit_Price__c}"/></span>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-4">Unit Count</label>
+                    <div class="slds-form-element__control">
+                        <input onchange="JSTotalAmount(this.value)" id="text-input-id-4" class="slds-input" type="number" value="{!UnitCount}" style="width:200px;"/> 
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label">Total Amount</span>
+                    <div class="slds-form-element__control">  
+                        <apex:outputPanel id="TotalAmountId">
+                            <span class="slds-form-element__static">${!TotalAmount}</span>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <apex:actionFunction immediate="true" name="ColculateTotalAmount" action="{!ColculateTotalAmount}" reRender="TotalAmountId">
+            <apex:param value="" name="UnitCountParam"/> 
+        </apex:actionFunction>
+        <script>
+        function JSTotalAmount(inputUnitCount){
+            ColculateTotalAmount(inputUnitCount);
+        }
+        </script>
+        <apex:pageMessages id="showmsg"></apex:pageMessages> 
+        <div style="height: 200px;">
+            <div class="slds-docked-form-footer">
+                <apex:commandButton immediate="true" value="Cancel" action="https://c.ap4.visual.force.com/apex/DetailProduct?id={!product.Id}" styleClass="slds-button slds-button_neutral"/>
+                <apex:commandButton value="Buy" action="{!Buy}" styleClass="slds-button slds-button_brand"/>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>

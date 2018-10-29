@@ -1,0 +1,31 @@
+<apex:page showHeader="false" controller="ProductListController" lightningStylesheets="true" >
+    <apex:slds />
+    <apex:pageBlock title="Product List">
+        <apex:pageBlockTable value="{!products}" var="product" >
+            <apex:column headerValue="IMAGE" style="max-width:300px; max-height:300px;">                 
+                <apex:image value="{!product.Image_URL__c}" />                            
+            </apex:column>
+            <apex:column headerValue="NAME">
+                <div style="margin:10px;">
+                    <apex:outputLink target="_blank" value="https://c.ap4.visual.force.com/apex/DetailProduct?id={!product.Id}" >{!product.Name}</apex:outputLink>                
+                </div>
+            </apex:column> 
+            <apex:column headerValue="DESCRIPTION"  >
+                <apex:outputField value="{! product.Product_Description__c }" />
+                <apex:outputLink target="_blank" rendered="{! if(len(product.Product_Description__c) > 100, true, false) }" value="https://c.ap4.visual.force.com/apex/DetailProduct?id={!product.Id}" >More</apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="COST" >
+                <div style="margin:10px;">
+                <apex:outputField value="{!product.Unit_Price__c}" />
+                </div>
+            </apex:column>
+            <apex:column > 
+                <apex:form >
+                    <div style="margin:10px;">
+                        <apex:commandButton action="https://c.ap4.visual.force.com/apex/DetailProduct?id={!product.Id}" value="Buy" styleClass="slds-button slds-button_brand "  />
+                    </div>
+                </apex:form> 
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

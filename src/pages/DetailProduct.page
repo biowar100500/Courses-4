@@ -1,0 +1,33 @@
+<apex:page showHeader="false" controller="DetailProductController" lightningStylesheets="true">
+    <apex:slds />
+    <apex:form >
+        <div style="padding:1%; width: 100%; background: rgb(243, 242, 242); box-shadow: 0 0 10px rgba(0,0,0,0.30);" class="slds-text-align_center slds-text-heading_medium">
+            {!product.Name}
+        </div>
+        <div style="height: 50px;">
+        </div>
+        <apex:dataTable value="{!product}" var="product" >
+            <apex:column style="text-align:center; width:50%;">
+                <apex:image value="{!product.Image_URL__c}" style="max-width:500px; max-height:500px;"/>
+            </apex:column>
+            <apex:column >
+                <div style="margin-left:3%;" class="slds-list_stacked">
+                    <div class="slds-item_label slds-text-color_weak slds-truncate">
+                        AMOUNT:
+                    </div>
+                    <apex:outputField value="{!product.Units_Available__c}" styleClass="slds-item_detail slds-truncate"/>
+                    <div class="slds-item_label slds-text-color_weak slds-truncate">
+                        DESCRIPTION:
+                    </div>
+                    <apex:outputField value="{!product.Product_Description__c}" styleClass="slds-item_detail slds-truncate"/>
+                </div>
+            </apex:column>
+        </apex:dataTable>
+        <div style="height: 200px;">
+            <div class="slds-docked-form-footer">
+                <apex:commandButton value="To Shopping" action="https://c.ap4.visual.force.com/apex/ProductList?sfdc.tabName=01r6F000001aD5F" styleClass="slds-button slds-button_neutral"/>
+                <apex:commandButton value="Buy" action="https://c.ap4.visual.force.com/apex/BuyProduct?id={!product.Id}" styleClass="slds-button slds-button_brand"/>
+            </div>
+        </div>
+    </apex:form>
+</apex:page>
